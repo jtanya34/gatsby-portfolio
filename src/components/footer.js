@@ -22,9 +22,9 @@ const Footer = () => {
           </Link>
         </Div>
         <Div m={5}>
-          Checkout the List of some interesting
-          <Link color="#04c2c9" href="/blog">
-            Blogs
+          Checkout the List of some interesting 
+          <Link color="#04c2c9" m={2} href="/blog">
+              Blogs
           </Link>
         </Div>
       </Div>
