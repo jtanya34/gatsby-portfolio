@@ -6,18 +6,31 @@
  */
 
 import React from "react"
-import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
-
+import About from "./about"
+import Projects from "./projects"
 import Header from "./header"
+import Skills from "./skills"
+import Footer from "./footer"
 import "./layout.css"
+import { Div, Flex } from "../styled-system/index"
 
-const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
+const Layout = data => {
+  const executeScroll = ref => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, document.getElementById(ref).offsetTop, {
+        passive: true,
+      })
+    } else {
+      return "error"
+    }
+  }
+
+  const navData = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
-          title
+          data
         }
       }
     }
@@ -25,27 +38,47 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
+      <Header data={navData.site.siteMetadata.data} onClick={executeScroll} />
+      <Div id="#About">
+        <About
+          data={
+            data && data.data && data.data.allSanityAuthor
+              ? data.data.allSanityAuthor.nodes
+              : undefined
+          }
+        />
+      </Div>
+      <Flex
+        id="#Projects"
+        bg="#f5f5f5"
+        height="100%"
+        width="100vw"
+        mt={5}
+        p={5}
+        boxShadow="inset 2px 0px 3px 0px hsla(0, 0%, 0%, 0.2)"
       >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
+        <Projects
+          data={
+            data && data.data && data.data.allSanityProject
+              ? data.data.allSanityProject.nodes
+              : undefined
+          }
+        />
+      </Flex>
+      <Flex
+        id="#Skills"
+        height="100%"
+        mt={5}
+        p={5}
+        boxShadow="inset 2px 0px 3px 0px hsla(0, 0%, 0%, 0.2)"
+      >
+        <Skills />
+      </Flex>
+      <Div id="#Contact" height="500px">
+        <Footer />
+      </Div>
     </>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default Layout

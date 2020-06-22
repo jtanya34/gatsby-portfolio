@@ -1,42 +1,25 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
+import { Div, Flex, Link } from "../styled-system/index"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
+const Header = ({ data, onClick }) => {
+  return (
+    <Div bg="#1b242f" mb="1.45rem" p="1rem" borderBottom="3px solid #04c2c9">
+      <Flex width="60%" justifyContent="space-evenly">
+        {data.map((each, idx) => {
+          return (
+            <Link
+              color="#fff"
+              onClick={() => onClick(`#${each}`)}
+              key={idx}
+              aria-label="author"
+            >
+              {each}
+            </Link>
+          )
+        })}
+      </Flex>
+    </Div>
+  )
 }
 
 export default Header
